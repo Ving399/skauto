@@ -1,0 +1,9 @@
+// Esta es tu conexion principal para trabajar con Supabase
+// Agrega donde lo necesites usar -> import { supabase } from './supabaseClient'
+
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
