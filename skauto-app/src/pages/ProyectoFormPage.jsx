@@ -6,6 +6,15 @@ import ListaEditable from '../components/ListaEditable'
 import ObjetivosAcordeon from '../components/ObjetivosAcordeon'
 import { ODS } from '../utils/ods'
 import { ICONOS_RUTA } from '../utils/rutaIconos'
+import iconEdit   from '../assets/icons/edit.svg'
+import iconDelete from '../assets/icons/delete (3).svg'
+
+const ESTADO_LABEL = {
+  borrador: 'Anteproyecto',
+  activo:   'Activo',
+  pausado:  'Pausado',
+  completo: 'Completo',
+}
 
 const FORM_VACIO = {
   nombre: '',
@@ -136,37 +145,39 @@ function ProyectoFormPage() {
   return (
     <div className="form-page">
 
-      {/* Header */}
-      <div className="form-page__header">
-        <div>
-          <div className="form-page__title-row">
-            {proyecto.rutas?.nombre && (
-              <img
-                src={ICONOS_RUTA[proyecto.rutas.nombre]}
-                alt={proyecto.rutas.nombre}
-                className="form-page__ruta-icon"
+      {/* Banner del proyecto */}
+      <div className="form-page__banner">
+        <div className="form-page__banner-left">
+          {editando
+            ? <input
+                className="form-page__title-input"
+                value={form.nombre}
+                onChange={(e) => setField('nombre', e.target.value)}
               />
-            )}
-            {editando
-              ? <input
-                  className="form-page__title-input"
-                  value={form.nombre}
-                  onChange={(e) => setField('nombre', e.target.value)}
-                />
-              : <h1 className="form-page__title">{proyecto.nombre}</h1>
-            }
-          </div>
-          <span className={`proyecto-card__estado proyecto-card__estado--${proyecto.estado}`}>
-            {proyecto.estado}
-          </span>
+            : <h1 className="form-page__title">{proyecto.nombre}</h1>
+          }
         </div>
+        {proyecto.rutas?.nombre && (
+          <img
+            src={ICONOS_RUTA[proyecto.rutas.nombre]}
+            alt={proyecto.rutas.nombre}
+            className="form-page__banner-icon"
+          />
+        )}
+      </div>
+
+      {/* Estado + acciones */}
+      <div className="form-page__header">
+        <span className={`proyecto-card__estado proyecto-card__estado--${proyecto.estado}`}>
+          {ESTADO_LABEL[proyecto.estado] ?? proyecto.estado}
+        </span>
         {!editando ? (
           <div className="form-page__actions">
             <button className="form-page__btn-delete" onClick={() => setConfirmarEliminar(true)}>
-              🗑️
+              <img src={iconDelete} alt="" className="btn-icon" /> Eliminar
             </button>
             <button className="form-page__btn-edit" onClick={() => setEditando(true)}>
-              ✏️ Editar
+              <img src={iconEdit} alt="" className="btn-icon" /> Editar
             </button>
           </div>
         ) : (

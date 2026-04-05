@@ -1,9 +1,6 @@
 // src/components/SideBarItem.jsx
-//SideBarItem — solo cambia la URL y se pinta como activo o inactivo. 
-// No renderiza ninguna página. Su único trabajo es ser un link inteligente que sabe si está seleccionado.
 import { NavLink } from 'react-router-dom'
 
-// label: texto visible, to: ruta, icon: emoji o componente
 function SideBarItem({ label, to, icon }) {
   return (
     <NavLink

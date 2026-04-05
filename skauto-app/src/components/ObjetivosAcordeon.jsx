@@ -81,8 +81,8 @@ function ObjetivosAcordeon({ rutaId, seleccionados, completados, onChange, edita
                       className={`acordeon__item ${completado ? 'acordeon__item--completado' : ''} ${marcado && !completado ? 'acordeon__item--marcado' : ''}`}
                       onClick={() => editando && toggleObjetivo(obj.id)}
                     >
-                      <span className="acordeon__item-check">
-                        {completado ? '🔒' : marcado ? '☑' : '☐'}
+                      <span className={`acordeon__item-check ${marcado ? 'acordeon__item-check--on' : ''} ${completado ? 'acordeon__item-check--lock' : ''}`}>
+                        {completado ? '🔒' : ''}
                       </span>
                       <span className="acordeon__item-texto">
                         <strong>{obj.numero}.</strong> {obj.descripcion}

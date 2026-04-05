@@ -1,10 +1,11 @@
 // src/components/Sidebar.jsx
-//Sidebar.jsx es el contenedor y organizador del panel lateral. 
-// Su trabajo es ensamblar todas las piezas del sidebar en un solo lugar.
 import { supabase } from '../supabaseClient'
 import SideBarItem from './SideBarItem'
+import logo from '../assets/imagenes/logo.png'
+import iconRocket from '../assets/icons/rocket.svg'
+import iconAvance from '../assets/icons/avance.svg'
+import iconTool   from '../assets/icons/tool.svg'
 
-// session: objeto de sesión de Supabase, contiene info del usuario
 function Sidebar({ session }) {
   const user = session.user
 
@@ -14,6 +15,11 @@ function Sidebar({ session }) {
 
   return (
     <aside className="sidebar">
+
+      {/* Logo */}
+      <div className="sidebar__logo">
+        <img src={logo} alt="SKAuto" />
+      </div>
 
       {/* Info del usuario */}
       <div className="sidebar__user">
@@ -31,12 +37,12 @@ function Sidebar({ session }) {
 
       {/* Navegación */}
       <nav className="sidebar__nav">
-        <SideBarItem to="/proyectos" icon="📁" label="Proyectos" />
-        <SideBarItem to="/avance"    icon="📊" label="Avance"    />
-        <SideBarItem to="/tools"     icon="🛠️" label="Tools"     />
+        <SideBarItem to="/proyectos" icon={<img src={iconRocket} alt="" />} label="Proyectos"    />
+        <SideBarItem to="/avance"    icon={<img src={iconAvance} alt="" />} label="Avance"       />
+        <SideBarItem to="/tools"     icon={<img src={iconTool}   alt="" />} label="Herramientas" />
       </nav>
 
-      {/* Logout al fondo */}
+      {/* Logout */}
       <button className="sidebar__logout" onClick={handleLogout}>
         Cerrar sesión
       </button>
