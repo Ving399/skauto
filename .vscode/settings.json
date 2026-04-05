@@ -1,0 +1,19 @@
+{
+    "sqltools.connections": [
+        {
+            "pgOptions": {
+                "ssl": {
+                    "rejectUnauthorized": true
+                }
+            },
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "db.wojdwzocoysamzowmiyg.supabase.co",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "skauto",
+            "database": "postgres",
+            "username": "postgres"
+        }
+    ]
+}

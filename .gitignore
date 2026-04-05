@@ -1,0 +1,10 @@
+# Variables de entorno - NUNCA subir al repo
+.env
+.env.local
+.env.*
+
+# Dependencias
+node_modules/
+
+# Build del frontend
+dist/

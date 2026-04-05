@@ -1,5 +1,4 @@
 // src/pages/LoginPage.jsx
-//Recuerda que este import es el que usas siempre que quieras usar Supabase
 import { supabase } from '../supabaseClient'
 
 function LoginPage() {
@@ -14,11 +13,14 @@ function LoginPage() {
   }
 
   return (
-    <div>
-      <h1>Bienvenido a SKAuto</h1>
-      <button onClick={handleGoogleLogin}>
-        Entrar con Google
-      </button>
+    <div className="login-page">
+      <div className="login-card">
+        <h1 className="login-card__title">SKAuto</h1>
+        <p className="login-card__subtitle">Iniciá sesión para continuar</p>
+        <button className="login-card__button" onClick={handleGoogleLogin}>
+          Entrar con Google
+        </button>
+      </div>
     </div>
   )
 }
