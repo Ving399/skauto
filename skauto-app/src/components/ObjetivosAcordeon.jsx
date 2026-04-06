@@ -13,7 +13,7 @@ function ObjetivosAcordeon({ rutaId, seleccionados, completados, onChange, edita
 
   useEffect(() => {
     if (!rutaId) return
-    fetch(`http://localhost:3001/api/objetivos?ruta_id=${rutaId}`)
+    fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/objetivos?ruta_id=${rutaId}`)
       .then(r => r.json())
       .then((data) => {
         if (Array.isArray(data)) {

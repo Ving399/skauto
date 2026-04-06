@@ -188,50 +188,63 @@ body {
 /* ── Login ── */
 .login-page {
   height: 100vh;
-  background: #1e1e2e;
+  background: #f9f7f4;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .login-card {
-  background: #313244;
-  border-radius: 12px;
+  background: #ffffff;
+  border-radius: 14px;
   padding: 2.5rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  width: 320px;
+  gap: 1.25rem;
+  width: 360px;
+  border: 2px solid var(--azul);
+  box-shadow: 0 6px 20px rgba(58, 171, 168, 0.15);
 }
 
-.login-card__title {
-  color: #cdd6f4;
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
+.login-card__logo {
+  height: 38px;
+  width: auto;
 }
 
 .login-card__subtitle {
-  color: #6c7086;
-  font-size: 0.9rem;
+  color: var(--gris);
+  font-size: 0.95rem;
 }
 
 .login-card__button {
-  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
   width: 100%;
-  padding: 0.65rem;
-  background: #45475a;
-  color: #cdd6f4;
-  border: 1px solid #585b70;
-  border-radius: 6px;
+  padding: 0.7rem 1.5rem;
+  background: #ffffff;
+  color: var(--negro);
+  border: 1.5px solid #d1cdc8;
+  border-radius: 50px;
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: background 0.15s;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
 }
 
 .login-card__button:hover {
-  background: #585b70;
+  border-color: var(--azul);
+  box-shadow: 0 4px 12px rgba(58, 171, 168, 0.2);
+  transform: translateY(-1px);
+}
+
+.login-card__button-icon {
+  width: 22px;
+  height: 22px;
+  filter: brightness(0) opacity(0.5);
 }
 
 /* ── Proyectos Page ── */

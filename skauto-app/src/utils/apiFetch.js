@@ -6,7 +6,8 @@ export async function apiFetch(endpoint, options = {}) {
   const { data } = await supabase.auth.getSession()
   const token = data.session?.access_token
 
-  const response = await fetch(`http://localhost:3001${endpoint}`, {
+  const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001'
+  const response = await fetch(`${BASE_URL}${endpoint}`, {
     ...options,
     headers: {
       'Content-Type': 'application/json',

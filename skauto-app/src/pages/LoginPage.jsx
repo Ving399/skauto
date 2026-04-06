@@ -1,5 +1,7 @@
 // src/pages/LoginPage.jsx
 import { supabase } from '../supabaseClient'
+import logoSkauto from '../assets/icons/logo.svg'
+import userIcon from '../assets/icons/user.svg'
 
 function LoginPage() {
 
@@ -7,7 +9,7 @@ function LoginPage() {
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: 'http://localhost:5173'
+        redirectTo: window.location.origin
       }
     })
   }
@@ -15,9 +17,10 @@ function LoginPage() {
   return (
     <div className="login-page">
       <div className="login-card">
-        <h1 className="login-card__title">SKAuto</h1>
+        <img className="login-card__logo" src={logoSkauto} alt="SKAuto" />
         <p className="login-card__subtitle">Iniciá sesión para continuar</p>
         <button className="login-card__button" onClick={handleGoogleLogin}>
+          <img className="login-card__button-icon" src={userIcon} alt="" />
           Entrar con Google
         </button>
       </div>
