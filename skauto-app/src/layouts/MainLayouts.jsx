@@ -1,16 +1,35 @@
 // src/layouts/MainLayouts.jsx
+import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
+import logoChico from '../assets/icons/logo-chico.svg'
 
-// session se pasa desde App.jsx para que Sidebar muestre los datos del usuario
 function MainLayouts({ session }) {
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+
   return (
     <div className="main-layout">
-      <Sidebar session={session} />
+
+      {/* Botón para abrir sidebar en mobile */}
+      <button
+        className="sidebar-toggle"
+        onClick={() => setSidebarOpen(true)}
+        aria-label="Abrir menú"
+      >
+        <img src={logoChico} alt="SKAuto" />
+      </button>
+
+      {/* Overlay oscuro al abrir en mobile */}
+      {sidebarOpen && (
+        <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />
+      )}
+
+      <Sidebar session={session} isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+
       <main className="main-layout__content">
-        {/* Outlet renderiza la página activa según la ruta */}
         <Outlet />
       </main>
+
     </div>
   )
 }

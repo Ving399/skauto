@@ -45,6 +45,74 @@ body {
   gap: 1.5rem;
 }
 
+/* Botón toggle mobile (oculto en desktop) */
+.sidebar-toggle {
+  display: none;
+}
+
+/* Overlay oscuro */
+.sidebar-overlay {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 200;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.12);
+  }
+
+  .sidebar--open {
+    transform: translateX(0);
+  }
+
+  .sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 199;
+  }
+
+  .sidebar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 100;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid var(--azul);
+    box-shadow: 0 2px 8px rgba(58, 171, 168, 0.2);
+    cursor: pointer;
+    padding: 0;
+    transition: box-shadow 0.15s, transform 0.1s;
+  }
+
+  .sidebar-toggle:hover {
+    box-shadow: 0 4px 12px rgba(58, 171, 168, 0.3);
+    transform: scale(1.05);
+  }
+
+  .sidebar-toggle img {
+    width: 22px;
+    height: 22px;
+  }
+
+  .main-layout__content {
+    padding-top: 4rem;
+  }
+}
+
 .sidebar__logo {
   padding: 0 0.25rem;
 }
@@ -288,9 +356,33 @@ body {
   filter: brightness(0) invert(1);
 }
 
+.btn-crear__text--short {
+  display: none;
+}
+
 .btn-crear:hover {
   background: color-mix(in srgb, var(--azul) 80%, black);
   transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .btn-crear {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 100;
+    padding: 0.65rem 1rem;
+    box-shadow: 0 4px 16px rgba(58, 171, 168, 0.35);
+    font-size: 0.85rem;
+  }
+
+  .btn-crear .btn-crear__text--full {
+    display: none;
+  }
+
+  .btn-crear .btn-crear__text--short {
+    display: inline;
+  }
 }
 
 .proyectos-grid {
@@ -435,21 +527,24 @@ body {
 }
 
 .modal__btn--cancel {
-  background: none;
+  background: #ffffff;
   border: 1.5px solid var(--gris);
   color: var(--gris);
   border-radius: 50px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .modal__btn--cancel:hover {
-  border-color: var(--negro);
-  color: var(--negro);
+  background: var(--naranja);
+  border-color: var(--naranja);
+  color: #ffffff;
 }
 
 .modal__btn--confirm {
-  background: none;
+  background: #ffffff;
   border: 1.5px solid var(--azul);
   color: var(--azul);
+  box-shadow: 0 2px 8px rgba(58, 171, 168, 0.2);
   font-weight: 700;
   border-radius: 50px;
 }
@@ -529,7 +624,17 @@ body {
   margin-bottom: 2rem;
 }
 
+.form-page__header-actions {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
 .form-page__actions {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 100;
   display: flex;
   gap: 0.6rem;
   align-items: center;
@@ -685,7 +790,7 @@ body {
   line-height: 1.5;
 }
 
-.form-campo__contenido input[type="text"],
+.form-campo__contenido input[type="text"]:not(.lista-editable__item-input),
 .form-campo__contenido input[type="date"],
 .form-campo__contenido textarea {
   width: 100%;
@@ -700,7 +805,7 @@ body {
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-.form-campo__contenido input:focus,
+.form-campo__contenido input:not(.lista-editable__item-input):focus,
 .form-campo__contenido textarea:focus {
   border-color: var(--verde);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--azul) 15%, transparent);
@@ -745,6 +850,21 @@ body {
   padding: 0.55rem 0.9rem;
   font-size: 0.9rem;
   color: var(--gris);
+}
+
+.lista-editable__item-input {
+  flex: 1;
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  appearance: none;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: var(--gris);
+  padding: 0;
+  margin: 0;
 }
 
 .lista-editable__item button {
@@ -816,17 +936,18 @@ body {
   padding: 0.6rem 0.4rem;
   border-radius: 8px;
   border: 2px solid transparent;
-  background: #f0f0f0;
+  background: #ffffff;
+  border: 2px solid #e0dbd4;
   cursor: pointer;
   user-select: none;
   text-align: center;
-  opacity: 0.4;
-  transition: opacity 0.15s, border-color 0.15s, background 0.15s;
+  opacity: 1;
+  transition: border-color 0.15s, background 0.15s;
 }
 
 .ods-card:hover {
-  opacity: 0.75;
   background: color-mix(in srgb, var(--ods-color) 15%, white);
+  border-color: var(--ods-color);
 }
 
 .ods-card--seleccionado {

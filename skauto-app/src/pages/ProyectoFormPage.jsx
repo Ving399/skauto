@@ -172,7 +172,7 @@ function ProyectoFormPage() {
           {ESTADO_LABEL[proyecto.estado] ?? proyecto.estado}
         </span>
         {!editando ? (
-          <div className="form-page__actions">
+          <div className="form-page__header-actions">
             <button className="form-page__btn-delete" onClick={() => setConfirmarEliminar(true)}>
               <img src={iconDelete} alt="" className="btn-icon" /> Eliminar
             </button>

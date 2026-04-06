@@ -33,7 +33,8 @@ function ProyectosPage() {
         <h1>Mis Proyectos</h1>
         <button className="btn-crear" onClick={() => setModalAbierto(true)}>
           <img src={iconRocket} alt="" className="btn-crear__icon" />
-          Crear proyecto
+          <span className="btn-crear__text--full">Crear proyecto</span>
+          <span className="btn-crear__text--short">Crear</span>
         </button>
       </div>
 

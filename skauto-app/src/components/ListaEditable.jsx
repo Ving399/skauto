@@ -19,6 +19,12 @@ function ListaEditable({ items = [], onChange }) {
     onChange(items.filter((_, i) => i !== index))
   }
 
+  function editar(index, valor) {
+    const nuevos = [...items]
+    nuevos[index] = valor
+    onChange(nuevos)
+  }
+
   function handleKeyDown(e) {
     if (e.key === 'Enter') {
       e.preventDefault()
@@ -31,7 +37,12 @@ function ListaEditable({ items = [], onChange }) {
       <ul className="lista-editable__items">
         {items.map((item, i) => (
           <li key={i} className="lista-editable__item">
-            <span>{item}</span>
+            <input
+              type="text"
+              value={item}
+              onChange={(e) => editar(i, e.target.value)}
+              className="lista-editable__item-input"
+            />
             <button type="button" onClick={() => eliminar(i)}>×</button>
           </li>
         ))}

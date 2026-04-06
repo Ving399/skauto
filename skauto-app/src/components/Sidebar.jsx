@@ -6,7 +6,7 @@ import iconRocket from '../assets/icons/rocket.svg'
 import iconAvance from '../assets/icons/avance.svg'
 import iconTool   from '../assets/icons/tool.svg'
 
-function Sidebar({ session }) {
+function Sidebar({ session, isOpen, onClose }) {
   const user = session.user
 
   async function handleLogout() {
@@ -14,7 +14,7 @@ function Sidebar({ session }) {
   }
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar${isOpen ? ' sidebar--open' : ''}`}>
 
       {/* Logo */}
       <div className="sidebar__logo">
@@ -37,9 +37,9 @@ function Sidebar({ session }) {
 
       {/* Navegación */}
       <nav className="sidebar__nav">
-        <SideBarItem to="/proyectos" icon={<img src={iconRocket} alt="" />} label="Proyectos"    />
-        <SideBarItem to="/avance"    icon={<img src={iconAvance} alt="" />} label="Avance"       />
-        <SideBarItem to="/tools"     icon={<img src={iconTool}   alt="" />} label="Herramientas" />
+        <SideBarItem to="/proyectos" icon={<img src={iconRocket} alt="" />} label="Proyectos"    onClick={onClose} />
+        <SideBarItem to="/avance"    icon={<img src={iconAvance} alt="" />} label="Avance"       onClick={onClose} />
+        <SideBarItem to="/tools"     icon={<img src={iconTool}   alt="" />} label="Herramientas" onClick={onClose} />
       </nav>
 
       {/* Logout */}
