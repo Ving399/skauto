@@ -9,14 +9,53 @@ const router = Router()
 // Todas las rutas usan verifyToken — ninguna es pública
 // req.user.id es el UUID del rover autenticado
 
-// GET /api/proyectos — trae todos los proyectos del rover logueado
+// GET /api/proyectos — si es rover: sus proyectos. Si es scouter: proyectos de todos los rovers de su clan
 router.get('/', verifyToken, async (req, res) => {
-  const roverId = req.user.id
+  const userId = req.user.id
+
+  const { data: perfil, error: perfilError } = await supabase
+    .from('rovers')
+    .select('tipo, clan_id')
+    .eq('id', userId)
+    .single()
+
+  if (perfilError) return res.status(500).json({ error: perfilError.message })
+
+  if (perfil.tipo === 'scouter') {
+    if (!perfil.clan_id) return res.json([])
+
+    // Traer todos los rovers del clan
+    const { data: clanRovers, error: clanError } = await supabase
+      .from('rovers')
+      .select('id, nombre')
+      .eq('clan_id', perfil.clan_id)
+      .eq('tipo', 'rover')
+
+    if (clanError) return res.status(500).json({ error: clanError.message })
+    if (!clanRovers.length) return res.json([])
+
+    const roverIds = clanRovers.map(r => r.id)
+    const roverNombres = Object.fromEntries(clanRovers.map(r => [r.id, r.nombre]))
+
+    const { data, error } = await supabase
+      .from('proyectos')
+      .select('*, rutas(nombre)')
+      .in('rover_id', roverIds)
+      .order('created_at', { ascending: false })
+
+    if (error) return res.status(500).json({ error: error.message })
+
+    // Inyectar nombre del rover en cada proyecto
+    return res.json(data.map(p => ({ ...p, rover_nombre: roverNombres[p.rover_id] ?? null })))
+  }
+
+  // Rover normal — solo sus proyectos
   const { data, error } = await supabase
     .from('proyectos')
     .select('*, rutas(nombre)')
-    .eq('rover_id', roverId)
+    .eq('rover_id', userId)
     .order('created_at', { ascending: false })
+
   if (error) return res.status(500).json({ error: error.message })
   res.json(data)
 })
