@@ -16,12 +16,17 @@ const ESTADO_LABEL = {
 function ProyectosPage() {
   const navigate = useNavigate()
   const [proyectos, setProyectos] = useState([])
+  const [esScouter, setEsScouter] = useState(false)
   const [cargando, setCargando] = useState(true)
   const [modalAbierto, setModalAbierto] = useState(false)
 
   useEffect(() => {
-    apiFetch('/api/proyectos').then((data) => {
-      setProyectos(Array.isArray(data) ? data : [])
+    Promise.all([
+      apiFetch('/api/proyectos'),
+      apiFetch('/api/me'),
+    ]).then(([proyectosData, meData]) => {
+      setProyectos(Array.isArray(proyectosData) ? proyectosData : [])
+      setEsScouter(meData.tipo === 'scouter')
       setCargando(false)
     })
   }, [])
@@ -30,18 +35,22 @@ function ProyectosPage() {
     <div className="proyectos-page">
 
       <div className="proyectos-page__header">
-        <h1>Mis Proyectos</h1>
-        <button className="btn-crear" onClick={() => setModalAbierto(true)}>
-          <img src={iconRocket} alt="" className="btn-crear__icon" />
-          <span className="btn-crear__text--full">Crear proyecto</span>
-          <span className="btn-crear__text--short">Crear</span>
-        </button>
+        <h1>{esScouter ? 'Proyectos del clan' : 'Mis Proyectos'}</h1>
+        {!esScouter && (
+          <button className="btn-crear" onClick={() => setModalAbierto(true)}>
+            <img src={iconRocket} alt="" className="btn-crear__icon" />
+            <span className="btn-crear__text--full">Crear proyecto</span>
+            <span className="btn-crear__text--short">Crear</span>
+          </button>
+        )}
       </div>
 
       {cargando ? (
         <p className="proyectos-page__empty">Cargando...</p>
       ) : proyectos.length === 0 ? (
-        <p className="proyectos-page__empty">No tenés proyectos todavía.</p>
+        <p className="proyectos-page__empty">
+          {esScouter ? 'No hay proyectos en tu clan todavía.' : 'No tenés proyectos todavía.'}
+        </p>
       ) : (
         <div className="proyectos-grid">
           {proyectos.map((p) => (
@@ -50,6 +59,10 @@ function ProyectosPage() {
               className="proyecto-card"
               onClick={() => navigate(`/proyectos/${p.id}/configurar`)}
             >
+              {p.rover_nombre && (
+                <span className="proyecto-card__rover">{p.rover_nombre}</span>
+              )}
+
               <h2 className="proyecto-card__nombre">{p.nombre}</h2>
 
               <p className="proyecto-card__descripcion">

@@ -409,6 +409,14 @@ body {
   border-color: color-mix(in srgb, var(--azul) 70%, black);
 }
 
+.proyecto-card__rover {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--azul);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
 .proyecto-card__nombre {
   font-size: 1.05rem;
   font-weight: 700;
@@ -989,6 +997,99 @@ body {
 
 .ods-card:not(.ods-card--seleccionado) .ods-card__nombre {
   color: #555;
+}
+
+/* ── Perfil ── */
+.perfil-page {
+  max-width: 420px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 2rem;
+}
+
+.perfil-page__avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid var(--azul);
+  overflow: hidden;
+  background: var(--crema);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(58, 171, 168, 0.25);
+  margin-bottom: 0.25rem;
+}
+
+.perfil-page__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.perfil-page__avatar span {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--azul-marino);
+}
+
+.perfil-page__nombre {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--negro);
+  text-align: center;
+}
+
+.perfil-page__email {
+  font-size: 0.88rem;
+  color: var(--gris);
+  opacity: 0.75;
+  text-align: center;
+}
+
+.perfil-page__badge--tipo {
+  background: var(--azul);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.25rem 1rem;
+  border-radius: 50px;
+  margin-top: 0.25rem;
+}
+
+.perfil-page__info {
+  width: 100%;
+  background: #fff;
+  border: 2px solid var(--azul);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-top: 0.75rem;
+}
+
+.perfil-page__campo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--azul) 15%, white);
+}
+
+.perfil-page__campo:last-child {
+  border-bottom: none;
+}
+
+.perfil-page__label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--negro);
+}
+
+.perfil-page__valor {
+  font-size: 0.9rem;
+  color: var(--gris);
 }
 
 /* ── Acordeón objetivos ── */

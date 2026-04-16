@@ -1,4 +1,5 @@
 // src/components/Sidebar.jsx
+import { useNavigate } from 'react-router-dom'
 import { supabase } from '../supabaseClient'
 import SideBarItem from './SideBarItem'
 import logo from '../assets/imagenes/logo.png'
@@ -8,6 +9,7 @@ import iconTool   from '../assets/icons/tool.svg'
 
 function Sidebar({ session, isOpen, onClose }) {
   const user = session.user
+  const navigate = useNavigate()
 
   async function handleLogout() {
     await supabase.auth.signOut()
@@ -22,7 +24,7 @@ function Sidebar({ session, isOpen, onClose }) {
       </div>
 
       {/* Info del usuario */}
-      <div className="sidebar__user">
+      <div className="sidebar__user" onClick={() => { navigate('/perfil'); onClose() }} style={{ cursor: 'pointer' }}>
         <div className="sidebar__avatar">
           {user.user_metadata?.avatar_url
             ? <img src={user.user_metadata.avatar_url} alt="avatar" />
