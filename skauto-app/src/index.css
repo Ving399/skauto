@@ -451,10 +451,27 @@ body {
   object-fit: contain;
 }
 
-.proyecto-card__estado--borrador  { background: var(--naranja); color: #fff; }
-.proyecto-card__estado--activo    { background: var(--verde);   color: #fff; }
-.proyecto-card__estado--pausado   { background: var(--gris);    color: #fff; }
-.proyecto-card__estado--completo  { background: var(--azul);    color: #fff; }
+.proyecto-card__estado--anteproyecto { background: var(--naranja); color: #fff; }
+.proyecto-card__estado--proyecto     { background: var(--azul);    color: #fff; }
+.proyecto-card__estado--finalizado   { background: var(--verde);   color: #fff; }
+
+.proyecto-card__btn-finalizar {
+  margin-top: 0.75rem;
+  width: 100%;
+  padding: 0.45rem 0;
+  background: transparent;
+  border: 1px solid var(--verde);
+  color: var(--verde);
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.proyecto-card__btn-finalizar:hover {
+  background: var(--verde);
+  color: #1e1e2e;
+}
 
 /* ── Modal ── */
 .modal-overlay {
@@ -582,14 +599,25 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(135deg, var(--azul) 0%, var(--verde) 100%);
   border-radius: 14px;
-  padding: 1.5rem 1.75rem;
+  padding: 1.25rem 1.75rem 1.25rem 1.75rem;
   margin-bottom: 1.25rem;
+  gap: 1rem;
 }
 
 .form-page__banner-left {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-page__banner-ruta {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.55);
+  letter-spacing: 0.08em;
+  margin: 0;
 }
 
 .form-page__title {
@@ -598,6 +626,13 @@ body {
   color: var(--azul-marino);
   text-transform: uppercase;
   letter-spacing: 0.02em;
+  margin: 0;
+  line-height: 1.15;
+}
+
+.form-page__banner-estado {
+  align-self: flex-start;
+  margin-top: 0.15rem;
 }
 
 .form-page__title-input {
@@ -618,17 +653,18 @@ body {
 }
 
 .form-page__banner-icon {
-  height: 4rem;
-  width: 4rem;
+  height: 4.5rem;
+  width: 4.5rem;
   object-fit: contain;
   flex-shrink: 0;
+  border-radius: 50%;
 }
 
-/* Estado + acciones */
+/* Acciones */
 .form-page__header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   margin-bottom: 2rem;
 }
 
@@ -767,6 +803,17 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+.form-page__seccion-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gris);
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid #313244;
+  margin-bottom: -0.25rem;
 }
 
 .form-page__fechas {

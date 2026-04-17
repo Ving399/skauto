@@ -10,10 +10,9 @@ import iconEdit   from '../assets/icons/edit.svg'
 import iconDelete from '../assets/icons/delete (3).svg'
 
 const ESTADO_LABEL = {
-  borrador: 'Anteproyecto',
-  activo:   'Activo',
-  pausado:  'Pausado',
-  completo: 'Completo',
+  anteproyecto: 'Anteproyecto',
+  proyecto:     'Proyecto',
+  finalizado:   'Finalizado',
 }
 
 const FORM_VACIO = {
@@ -146,8 +145,17 @@ function ProyectoFormPage() {
     <div className="form-page">
 
       {/* Banner del proyecto */}
-      <div className="form-page__banner">
+      <div
+        className="form-page__banner"
+        style={{ background: rutaGradiente(proyecto.rutas?.color) }}
+      >
         <div className="form-page__banner-left">
+          {proyecto.rutas?.nombre && (
+            <p className="form-page__banner-ruta">
+              {proyecto.rutas.nombre.toUpperCase()}
+              {proyecto.rutas.descripcion && ` · ${proyecto.rutas.descripcion.toUpperCase()}`}
+            </p>
+          )}
           {editando
             ? <input
                 className="form-page__title-input"
@@ -156,6 +164,9 @@ function ProyectoFormPage() {
               />
             : <h1 className="form-page__title">{proyecto.nombre}</h1>
           }
+          <span className={`proyecto-card__estado proyecto-card__estado--${proyecto.estado} form-page__banner-estado`}>
+            {ESTADO_LABEL[proyecto.estado] ?? proyecto.estado}
+          </span>
         </div>
         {proyecto.rutas?.nombre && (
           <img
@@ -166,11 +177,8 @@ function ProyectoFormPage() {
         )}
       </div>
 
-      {/* Estado + acciones */}
+      {/* Acciones */}
       <div className="form-page__header">
-        <span className={`proyecto-card__estado proyecto-card__estado--${proyecto.estado}`}>
-          {ESTADO_LABEL[proyecto.estado] ?? proyecto.estado}
-        </span>
         {!editando ? (
           <div className="form-page__header-actions">
             <button className="form-page__btn-delete" onClick={() => setConfirmarEliminar(true)}>
@@ -197,10 +205,13 @@ function ProyectoFormPage() {
       {/* Formulario */}
       <div className="form-page__body">
 
-        <Campo label="Descripción">
+        {/* ── Sección Anteproyecto ── */}
+        <div className="form-page__seccion-label">Anteproyecto</div>
+
+        <Campo label="Motivación">
           {editando
-            ? <textarea value={form.descripcion} onChange={(e) => setField('descripcion', e.target.value)} />
-            : <Valor texto={form.descripcion} />}
+            ? <textarea value={form.motivacion} onChange={(e) => setField('motivacion', e.target.value)} />
+            : <Valor texto={form.motivacion} />}
         </Campo>
 
         <Campo label="Objetivo general">
@@ -209,40 +220,10 @@ function ProyectoFormPage() {
             : <Valor texto={form.objetivo_general} />}
         </Campo>
 
-        <Campo label="Objetivos particulares">
+        <Campo label="Objetivos específicos">
           {editando
             ? <ListaEditable items={form.obj_particulares} onChange={(v) => setField('obj_particulares', v)} />
             : <ListaVista items={form.obj_particulares} />}
-        </Campo>
-
-        <Campo label="Motivación">
-          {editando
-            ? <textarea value={form.motivacion} onChange={(e) => setField('motivacion', e.target.value)} />
-            : <Valor texto={form.motivacion} />}
-        </Campo>
-
-        <Campo label="Acciones">
-          {editando
-            ? <ListaEditable items={form.acciones} onChange={(v) => setField('acciones', v)} />
-            : <ListaVista items={form.acciones} />}
-        </Campo>
-
-        <Campo label="Lugar">
-          {editando
-            ? <input type="text" value={form.lugar} onChange={(e) => setField('lugar', e.target.value)} />
-            : <Valor texto={form.lugar} />}
-        </Campo>
-
-        <Campo label="Involucrados">
-          {editando
-            ? <ListaEditable items={form.involucrados} onChange={(v) => setField('involucrados', v)} />
-            : <ListaVista items={form.involucrados} />}
-        </Campo>
-
-        <Campo label="Recursos">
-          {editando
-            ? <ListaEditable items={form.recursos} onChange={(v) => setField('recursos', v)} />
-            : <ListaVista items={form.recursos} />}
         </Campo>
 
         <Campo label="ODS">
@@ -269,6 +250,49 @@ function ProyectoFormPage() {
           </div>
         </Campo>
 
+        <Campo label="Objetivos educativos">
+          <ObjetivosAcordeon
+            rutaId={proyecto.ruta_id}
+            seleccionados={objetivosSeleccionados}
+            completados={objetivosCompletados}
+            onChange={setObjetivosSeleccionados}
+            editando={editando}
+          />
+        </Campo>
+
+        {/* ── Sección Proyecto ── */}
+        <div className="form-page__seccion-label">Proyecto</div>
+
+        <Campo label="Descripción">
+          {editando
+            ? <textarea value={form.descripcion} onChange={(e) => setField('descripcion', e.target.value)} />
+            : <Valor texto={form.descripcion} />}
+        </Campo>
+
+        <Campo label="Acciones">
+          {editando
+            ? <ListaEditable items={form.acciones} onChange={(v) => setField('acciones', v)} />
+            : <ListaVista items={form.acciones} />}
+        </Campo>
+
+        <Campo label="Lugar">
+          {editando
+            ? <input type="text" value={form.lugar} onChange={(e) => setField('lugar', e.target.value)} />
+            : <Valor texto={form.lugar} />}
+        </Campo>
+
+        <Campo label="Involucrados">
+          {editando
+            ? <ListaEditable items={form.involucrados} onChange={(v) => setField('involucrados', v)} />
+            : <ListaVista items={form.involucrados} />}
+        </Campo>
+
+        <Campo label="Recursos">
+          {editando
+            ? <ListaEditable items={form.recursos} onChange={(v) => setField('recursos', v)} />
+            : <ListaVista items={form.recursos} />}
+        </Campo>
+
         <div className="form-page__fechas">
           <Campo label="Fecha inicio">
             {editando
@@ -281,16 +305,6 @@ function ProyectoFormPage() {
               : <Valor texto={form.fecha_fin} />}
           </Campo>
         </div>
-
-        <Campo label="Objetivos educativos">
-          <ObjetivosAcordeon
-            rutaId={proyecto.ruta_id}
-            seleccionados={objetivosSeleccionados}
-            completados={objetivosCompletados}
-            onChange={setObjetivosSeleccionados}
-            editando={editando}
-          />
-        </Campo>
 
         <Campo label="Aprendizajes">
           {editando
@@ -323,6 +337,16 @@ function ProyectoFormPage() {
 
     </div>
   )
+}
+
+// Genera un gradiente izquierda clara → derecha oscura a partir de un color hex
+function rutaGradiente(hex) {
+  const n = parseInt((hex ?? '#2196F3').replace('#', ''), 16)
+  const adj = (v, d) => Math.min(255, Math.max(0, v + d))
+  const r = n >> 16, g = (n >> 8) & 0xff, b = n & 0xff
+  const claro  = `rgb(${adj(r, 55)}, ${adj(g, 55)}, ${adj(b, 55)})`
+  const oscuro = `rgb(${adj(r,-45)}, ${adj(g,-45)}, ${adj(b,-45)})`
+  return `linear-gradient(to right, ${claro}, ${oscuro})`
 }
 
 // Helpers de presentación

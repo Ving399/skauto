@@ -7,10 +7,9 @@ import { ICONOS_RUTA } from '../utils/rutaIconos'
 import iconRocket from '../assets/icons/rocket.svg'
 
 const ESTADO_LABEL = {
-  borrador:  'Anteproyecto',
-  activo:    'Activo',
-  pausado:   'Pausado',
-  completo:  'Completo',
+  anteproyecto: 'Anteproyecto',
+  proyecto:     'Proyecto',
+  finalizado:   'Finalizado',
 }
 
 function ProyectosPage() {
@@ -19,6 +18,8 @@ function ProyectosPage() {
   const [esScouter, setEsScouter] = useState(false)
   const [cargando, setCargando] = useState(true)
   const [modalAbierto, setModalAbierto] = useState(false)
+  const [confirmarFinalizar, setConfirmarFinalizar] = useState(null) // id del proyecto a finalizar
+  const [finalizando, setFinalizando] = useState(false)
 
   useEffect(() => {
     Promise.all([
@@ -30,6 +31,17 @@ function ProyectosPage() {
       setCargando(false)
     })
   }, [])
+
+  async function finalizarProyecto() {
+    if (!confirmarFinalizar) return
+    setFinalizando(true)
+    const data = await apiFetch(`/api/proyectos/${confirmarFinalizar}/finalizar`, { method: 'PATCH' })
+    setFinalizando(false)
+    if (!data.error) {
+      setProyectos(prev => prev.map(p => p.id === confirmarFinalizar ? { ...p, estado: 'finalizado' } : p))
+    }
+    setConfirmarFinalizar(null)
+  }
 
   return (
     <div className="proyectos-page">
@@ -81,6 +93,15 @@ function ProyectosPage() {
                   />
                 )}
               </div>
+
+              {esScouter && p.estado !== 'finalizado' && (
+                <button
+                  className="proyecto-card__btn-finalizar"
+                  onClick={(e) => { e.stopPropagation(); setConfirmarFinalizar(p.id) }}
+                >
+                  Marcar como Finalizado
+                </button>
+              )}
             </div>
           ))}
         </div>
@@ -88,6 +109,27 @@ function ProyectosPage() {
 
       {modalAbierto && (
         <CrearProyectoModal onClose={() => setModalAbierto(false)} />
+      )}
+
+      {/* Modal confirmación finalizar */}
+      {confirmarFinalizar && (
+        <div className="modal-overlay" onClick={() => setConfirmarFinalizar(null)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h2 className="modal__title">Finalizar proyecto</h2>
+            <p style={{ color: '#a6adc8', fontSize: '0.9rem' }}>
+              ¿Estás seguro de que querés marcar este proyecto como <strong style={{ color: '#cdd6f4' }}>Finalizado</strong>?
+              Solo vos, como scouter, podés hacer esto.
+            </p>
+            <div className="modal__actions">
+              <button className="modal__btn modal__btn--cancel" onClick={() => setConfirmarFinalizar(null)}>
+                Cancelar
+              </button>
+              <button className="modal__btn modal__btn--confirm" onClick={finalizarProyecto} disabled={finalizando}>
+                {finalizando ? 'Guardando...' : 'Finalizar'}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
     </div>

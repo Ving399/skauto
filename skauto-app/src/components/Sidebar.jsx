@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import { supabase } from '../supabaseClient'
 import SideBarItem from './SideBarItem'
 import logo from '../assets/imagenes/logo.png'
-import iconRocket from '../assets/icons/rocket.svg'
-import iconAvance from '../assets/icons/avance.svg'
-import iconTool   from '../assets/icons/tool.svg'
+import iconRocket      from '../assets/icons/rocket.svg'
+import iconAvance      from '../assets/icons/avance.svg'
+import iconTool        from '../assets/icons/tool.svg'
+import iconCompetencias from '../assets/icons/competencias.svg'
+import iconAventuras   from '../assets/icons/fire.svg'
 
 function Sidebar({ session, isOpen, onClose }) {
   const user = session.user
@@ -39,9 +41,11 @@ function Sidebar({ session, isOpen, onClose }) {
 
       {/* Navegación */}
       <nav className="sidebar__nav">
-        <SideBarItem to="/proyectos" icon={<img src={iconRocket} alt="" />} label="Proyectos"    onClick={onClose} />
-        <SideBarItem to="/avance"    icon={<img src={iconAvance} alt="" />} label="Avance"       onClick={onClose} />
-        <SideBarItem to="/tools"     icon={<img src={iconTool}   alt="" />} label="Herramientas" onClick={onClose} />
+        <SideBarItem to="/proyectos"    icon={<img src={iconRocket}       alt="" />} label="Proyectos"    onClick={onClose} />
+        <SideBarItem to="/competencias" icon={<img src={iconCompetencias} alt="" />} label="Competencias" onClick={onClose} />
+        <SideBarItem to="/aventuras"    icon={<img src={iconAventuras}    alt="" />} label="Aventuras"    onClick={onClose} />
+        <SideBarItem to="/avance"       icon={<img src={iconAvance}       alt="" />} label="Avance"       onClick={onClose} />
+        <SideBarItem to="/tools"        icon={<img src={iconTool}         alt="" />} label="Herramientas" onClick={onClose} />
       </nav>
 
       {/* Logout */}

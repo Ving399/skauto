@@ -10,6 +10,8 @@ import ProyectoFormPage from './pages/ProyectoFormPage'
 import AvancePage from './pages/AvancePage'
 import ToolsPage from './pages/ToolsPage'
 import PerfilPage from './pages/PerfilPage'
+import CompetenciasPage from './pages/CompetenciasPage'
+import AventurasPage from './pages/AventurasPage'
 
 function App() {
   const [session, setSession] = useState(null)
@@ -46,6 +48,8 @@ function App() {
           <Route path="/proyectos"                   element={<ProyectosPage />} />
           <Route path="/proyectos/:id/configurar"    element={<ProyectoFormPage />} />
           <Route path="/avance"                      element={<AvancePage />} />
+          <Route path="/competencias"                element={<CompetenciasPage />} />
+          <Route path="/aventuras"                   element={<AventurasPage />} />
           <Route path="/tools"                       element={<ToolsPage />} />
           <Route path="/perfil"                      element={<PerfilPage />} />
         </Route>
