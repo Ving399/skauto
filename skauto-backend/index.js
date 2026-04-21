@@ -7,6 +7,7 @@ import userRouter from './routes/user.js'
 import proyectosRouter from './routes/proyectos.js'
 import rutasRouter from './routes/rutas.js'
 import objetivosRouter from './routes/objetivos.js'
+import competenciasRouter from './routes/competencias.js'
 
 // Activamos dotenv para que process.env tenga las variables del .env
 dotenv.config()
@@ -25,6 +26,7 @@ app.use('/api', userRouter)
 app.use('/api/proyectos', proyectosRouter)
 app.use('/api/rutas', rutasRouter)
 app.use('/api/objetivos', objetivosRouter)
+app.use('/api/competencias', competenciasRouter)
 
 // Arrancamos el servidor en el puerto definido en .env (3001)
 const PORT = process.env.PORT || 3001

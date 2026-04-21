@@ -11,6 +11,7 @@ import AvancePage from './pages/AvancePage'
 import ToolsPage from './pages/ToolsPage'
 import PerfilPage from './pages/PerfilPage'
 import CompetenciasPage from './pages/CompetenciasPage'
+import CompetenciaFormPage from './pages/CompetenciaFormPage'
 import AventurasPage from './pages/AventurasPage'
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
           <Route path="/proyectos/:id/configurar"    element={<ProyectoFormPage />} />
           <Route path="/avance"                      element={<AvancePage />} />
           <Route path="/competencias"                element={<CompetenciasPage />} />
+          <Route path="/competencias/:id"            element={<CompetenciaFormPage />} />
           <Route path="/aventuras"                   element={<AventurasPage />} />
           <Route path="/tools"                       element={<ToolsPage />} />
           <Route path="/perfil"                      element={<PerfilPage />} />

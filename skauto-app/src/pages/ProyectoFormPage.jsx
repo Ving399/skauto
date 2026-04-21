@@ -8,6 +8,7 @@ import { ODS } from '../utils/ods'
 import { ICONOS_RUTA } from '../utils/rutaIconos'
 import iconEdit   from '../assets/icons/edit.svg'
 import iconDelete from '../assets/icons/delete (3).svg'
+import iconBack   from '../assets/icons/back.svg'
 
 const ESTADO_LABEL = {
   anteproyecto: 'Anteproyecto',
@@ -150,6 +151,9 @@ function ProyectoFormPage() {
         style={{ background: rutaGradiente(proyecto.rutas?.color) }}
       >
         <div className="form-page__banner-left">
+          <button className="form-page__btn-back" onClick={() => navigate('/proyectos')}>
+            <img src={iconBack} alt="Volver" />
+          </button>
           {proyecto.rutas?.nombre && (
             <p className="form-page__banner-ruta">
               {proyecto.rutas.nombre.toUpperCase()}
