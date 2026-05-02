@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { apiFetch } from '../utils/apiFetch'
 import CrearCompetenciaModal from '../components/CrearCompetenciaModal'
+import { ICONOS_TEMA } from '../utils/temaIconos'
 import iconRocket from '../assets/icons/rocket.svg'
 
 function CompetenciasPage() {
@@ -87,6 +88,13 @@ function CompetenciasPage() {
                 <span className={`proyecto-card__estado proyecto-card__estado--${c.estado}`}>
                   {c.estado === 'iniciada' ? 'Iniciada' : 'Culminada'}
                 </span>
+                {c.temas_competencia?.nombre && ICONOS_TEMA[c.temas_competencia.nombre] && (
+                  <img
+                    src={ICONOS_TEMA[c.temas_competencia.nombre]}
+                    alt={c.temas_competencia.nombre}
+                    className="proyecto-card__ruta-icon"
+                  />
+                )}
               </div>
 
               {esScouter && c.estado !== 'culminada' && (

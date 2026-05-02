@@ -207,6 +207,110 @@ router.patch('/:id/finalizar', verifyToken, async (req, res) => {
   res.json(data)
 })
 
+// GET /api/proyectos/:id/competencias — lista competencias vinculadas al proyecto
+router.get('/:id/competencias', verifyToken, async (req, res) => {
+  const userId = req.user.id
+  const { id } = req.params
+
+  // Verificar acceso al proyecto
+  const { data: perfil } = await supabase.from('rovers').select('tipo, clan_id').eq('id', userId).single()
+
+  let proyectoQuery = supabase.from('proyectos').select('rover_id').eq('id', id)
+  if (perfil?.tipo === 'rover') proyectoQuery = proyectoQuery.eq('rover_id', userId)
+  const { data: proyecto, error: proyErr } = await proyectoQuery.single()
+  if (proyErr || !proyecto) return res.status(404).json({ error: 'Proyecto no encontrado' })
+
+  const { data, error } = await supabase
+    .from('proyecto_competencias')
+    .select('id, competencia_id, competencias(id, nombre, estado, temas_competencia(nombre))')
+    .eq('proyecto_id', id)
+    .order('created_at', { ascending: true })
+
+  if (error) return res.status(500).json({ error: error.message })
+  res.json(data)
+})
+
+// GET /api/proyectos/:id/competencias/disponibles — competencias del rover no vinculadas a ningún proyecto
+router.get('/:id/competencias/disponibles', verifyToken, async (req, res) => {
+  const roverId = req.user.id
+  const { id } = req.params
+
+  // Verificar que el proyecto pertenece al rover
+  const { data: proyecto, error: proyErr } = await supabase
+    .from('proyectos').select('rover_id').eq('id', id).eq('rover_id', roverId).single()
+  if (proyErr || !proyecto) return res.status(404).json({ error: 'Proyecto no encontrado' })
+
+  // IDs ya vinculados a cualquier proyecto
+  const { data: vinculadas } = await supabase
+    .from('proyecto_competencias')
+    .select('competencia_id')
+
+  const idsVinculados = (vinculadas || []).map(v => v.competencia_id)
+
+  // Competencias del rover que no están vinculadas
+  let query = supabase
+    .from('competencias')
+    .select('id, nombre, estado, temas_competencia(nombre)')
+    .eq('rover_id', roverId)
+    .order('created_at', { ascending: false })
+
+  if (idsVinculados.length > 0) {
+    query = query.not('id', 'in', `(${idsVinculados.join(',')})`)
+  }
+
+  const { data, error } = await query
+  if (error) return res.status(500).json({ error: error.message })
+  res.json(data)
+})
+
+// POST /api/proyectos/:id/competencias — vincula una competencia al proyecto
+router.post('/:id/competencias', verifyToken, async (req, res) => {
+  const roverId = req.user.id
+  const { id } = req.params
+  const { competencia_id } = req.body
+
+  if (!competencia_id) return res.status(400).json({ error: 'competencia_id es requerido' })
+
+  // Verificar que el proyecto es del rover
+  const { data: proyecto, error: proyErr } = await supabase
+    .from('proyectos').select('rover_id').eq('id', id).eq('rover_id', roverId).single()
+  if (proyErr || !proyecto) return res.status(404).json({ error: 'Proyecto no encontrado' })
+
+  // Verificar que la competencia es del rover
+  const { data: competencia, error: compErr } = await supabase
+    .from('competencias').select('id').eq('id', competencia_id).eq('rover_id', roverId).single()
+  if (compErr || !competencia) return res.status(404).json({ error: 'Competencia no encontrada' })
+
+  const { data, error } = await supabase
+    .from('proyecto_competencias')
+    .insert({ proyecto_id: id, competencia_id })
+    .select('id, competencia_id, competencias(id, nombre, estado, temas_competencia(nombre))')
+    .single()
+
+  if (error) return res.status(500).json({ error: error.message })
+  res.status(201).json(data)
+})
+
+// DELETE /api/proyectos/:id/competencias/:cid — desvincula una competencia del proyecto
+router.delete('/:id/competencias/:cid', verifyToken, async (req, res) => {
+  const roverId = req.user.id
+  const { id, cid } = req.params
+
+  // Verificar que el proyecto es del rover
+  const { data: proyecto, error: proyErr } = await supabase
+    .from('proyectos').select('rover_id').eq('id', id).eq('rover_id', roverId).single()
+  if (proyErr || !proyecto) return res.status(404).json({ error: 'Proyecto no encontrado' })
+
+  const { error } = await supabase
+    .from('proyecto_competencias')
+    .delete()
+    .eq('id', cid)
+    .eq('proyecto_id', id)
+
+  if (error) return res.status(500).json({ error: error.message })
+  res.json({ mensaje: 'Competencia desvinculada' })
+})
+
 // DELETE /api/proyectos/:id — borra un proyecto del rover
 router.delete('/:id', verifyToken, async (req, res) => {
   const roverId = req.user.id

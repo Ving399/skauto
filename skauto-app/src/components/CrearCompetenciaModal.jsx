@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { apiFetch } from '../utils/apiFetch'
+import { ICONOS_TEMA } from '../utils/temaIconos'
 
 const TEMA_COLORES = {
   'Salud y Bienestar':              '#5BA4CF',
@@ -68,8 +69,10 @@ function CrearCompetenciaModal({ onClose }) {
                 style={{ '--tema-color': TEMA_COLORES[t.nombre] ?? '#888' }}
                 onClick={() => setTemaId(t.id)}
               >
+                {ICONOS_TEMA[t.nombre] && (
+                  <img src={ICONOS_TEMA[t.nombre]} alt={t.nombre} className="tema-card__icon" />
+                )}
                 <p className="tema-card__nombre">{t.nombre}</p>
-                <p className="tema-card__objetivo">{t.objetivo}</p>
               </div>
             ))}
           </div>

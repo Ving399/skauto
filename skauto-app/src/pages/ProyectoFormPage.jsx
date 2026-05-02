@@ -4,6 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { apiFetch } from '../utils/apiFetch'
 import ListaEditable from '../components/ListaEditable'
 import ObjetivosAcordeon from '../components/ObjetivosAcordeon'
+import ObjetivosExtra from '../components/ObjetivosExtra'
+import CompetenciasVinculadas from '../components/CompetenciasVinculadas'
 import { ODS } from '../utils/ods'
 import { ICONOS_RUTA } from '../utils/rutaIconos'
 import iconEdit   from '../assets/icons/edit.svg'
@@ -44,13 +46,16 @@ function ProyectoFormPage() {
   const [confirmarEliminar, setConfirmarEliminar] = useState(false)
   const [objetivosSeleccionados, setObjetivosSeleccionados] = useState([])
   const [objetivosCompletados, setObjetivosCompletados] = useState([])
+  const [esScouter, setEsScouter] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
     Promise.all([
       apiFetch(`/api/proyectos/${id}`),
       apiFetch('/api/objetivos/rover'),
-    ]).then(([proyectoData, objetivosRover]) => {
+      apiFetch('/api/me'),
+    ]).then(([proyectoData, objetivosRover, meData]) => {
+      setEsScouter(meData?.tipo === 'scouter')
       setProyecto(proyectoData)
       setForm({
         nombre:           proyectoData.nombre            ?? '',
@@ -261,6 +266,24 @@ function ProyectoFormPage() {
             completados={objetivosCompletados}
             onChange={setObjetivosSeleccionados}
             editando={editando}
+          />
+        </Campo>
+
+        <Campo label="Objetivos extra">
+          <ObjetivosExtra
+            rutaIdActual={proyecto.ruta_id}
+            seleccionados={objetivosSeleccionados}
+            completados={objetivosCompletados}
+            onChange={setObjetivosSeleccionados}
+            editando={editando}
+          />
+        </Campo>
+
+        <Campo label="Competencias">
+          <CompetenciasVinculadas
+            proyectoId={id}
+            editando={editando}
+            esScouter={esScouter}
           />
         </Campo>
 

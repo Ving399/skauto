@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { apiFetch } from '../utils/apiFetch'
 import ChecklistEditable from '../components/ChecklistEditable'
+import { ICONOS_TEMA } from '../utils/temaIconos'
 import iconEdit   from '../assets/icons/edit.svg'
 import iconDelete from '../assets/icons/delete (3).svg'
 import iconBack   from '../assets/icons/back.svg'
@@ -142,6 +143,13 @@ function CompetenciaFormPage() {
             {competencia.estado === 'iniciada' ? 'Iniciada' : 'Culminada'}
           </span>
         </div>
+        {ICONOS_TEMA[nombreTema] && (
+          <img
+            src={ICONOS_TEMA[nombreTema]}
+            alt={nombreTema}
+            className="form-page__banner-icon"
+          />
+        )}
       </div>
 
       {/* Acciones */}
