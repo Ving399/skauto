@@ -17,8 +17,16 @@ const app = express()
 // Le decimos a Express que acepte JSON en el body de las peticiones
 app.use(express.json())
 
-// Activamos CORS para permitir peticiones desde el frontend
-app.use(cors())
+const corsOptions = {
+  origin: 'https://skauto-iet.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['authorization', 'content-type'],
+  credentials: true,
+  optionsSuccessStatus: 200
+}
+
+app.options('*', cors(corsOptions))
+app.use(cors(corsOptions))
 
 // Registramos las rutas de usuario bajo el prefijo /api
 // Esto significa que GET /me se convierte en GET /api/me
