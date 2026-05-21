@@ -13,12 +13,17 @@ dotenv.config()
 
 const app = express()
 
+const allowedOrigins = [
+  'https://skauto-iet.vercel.app',
+  'http://localhost:3000',
+  'http://localhost:5173',
+]
+
 app.use(cors({
-  origin: [
-    'https://skauto-iet.vercel.app',
-    'http://localhost:3000',
-    'http://localhost:5173',
-  ],
+  origin: (origin, callback) => {
+    console.log('[CORS] origin:', JSON.stringify(origin))
+    callback(null, allowedOrigins.includes(origin) || !origin)
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['authorization', 'content-type'],
