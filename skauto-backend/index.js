@@ -2,7 +2,6 @@
 
 import express from 'express'
 import dotenv from 'dotenv'
-import cors from 'cors'
 import userRouter from './routes/user.js'
 import proyectosRouter from './routes/proyectos.js'
 import rutasRouter from './routes/rutas.js'
@@ -14,19 +13,25 @@ dotenv.config()
 
 const app = express()
 
-// Le decimos a Express que acepte JSON en el body de las peticiones
+const allowedOrigins = [
+  'https://skauto-iet.vercel.app',
+  'http://localhost:3000',
+  'http://localhost:5173',
+]
+
+app.use((req, res, next) => {
+  const origin = req.headers.origin
+  if (!origin || allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin || '*')
+  }
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
+  res.setHeader('Access-Control-Allow-Headers', 'authorization, content-type')
+  res.setHeader('Access-Control-Allow-Credentials', 'true')
+  if (req.method === 'OPTIONS') return res.sendStatus(200)
+  next()
+})
+
 app.use(express.json())
-
-const corsOptions = {
-  origin: 'https://skauto-iet.vercel.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['authorization', 'content-type'],
-  credentials: true,
-  optionsSuccessStatus: 200
-}
-
-app.options('*', cors(corsOptions))
-app.use(cors(corsOptions))
 
 // Registramos las rutas de usuario bajo el prefijo /api
 // Esto significa que GET /me se convierte en GET /api/me

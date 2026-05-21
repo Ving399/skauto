@@ -200,10 +200,26 @@ router.patch('/:id/finalizar', verifyToken, async (req, res) => {
     .update({ estado: 'finalizado' })
     .eq('id', id)
     .in('rover_id', roverIds)
-    .select()
+    .select('*, rutas(nombre, descripcion, color)')
     .single()
 
   if (error || !data) return res.status(404).json({ error: 'Proyecto no encontrado o no pertenece a tu clan' })
+
+  // Completar automáticamente todos los objetivos de la ruta para ese rover
+  const { data: objetivos } = await supabase
+    .from('objetivos_educativos')
+    .select('id')
+    .eq('ruta_id', data.ruta_id)
+
+  if (objetivos && objetivos.length > 0) {
+    await supabase
+      .from('rover_objetivos')
+      .upsert(
+        objetivos.map(obj => ({ rover_id: data.rover_id, objetivo_id: obj.id, estado: 'completado' })),
+        { onConflict: 'rover_id,objetivo_id' }
+      )
+  }
+
   res.json(data)
 })
 
@@ -315,12 +331,40 @@ router.delete('/:id/competencias/:cid', verifyToken, async (req, res) => {
 router.delete('/:id', verifyToken, async (req, res) => {
   const roverId = req.user.id
   const { id } = req.params
+
+  // Obtener ruta_id antes de eliminar para poder resetear los objetivos
+  const { data: proyecto, error: fetchErr } = await supabase
+    .from('proyectos')
+    .select('ruta_id')
+    .eq('id', id)
+    .eq('rover_id', roverId)
+    .single()
+
+  if (fetchErr || !proyecto) return res.status(404).json({ error: 'Proyecto no encontrado' })
+
+  // Eliminar el proyecto
   const { error } = await supabase
     .from('proyectos')
     .delete()
     .eq('id', id)
-    .eq('rover_id', roverId) // seguridad: solo puede borrar los suyos
+    .eq('rover_id', roverId)
+
   if (error) return res.status(500).json({ error: error.message })
+
+  // Resetear los objetivos de esa ruta para el rover
+  const { data: objetivos } = await supabase
+    .from('objetivos_educativos')
+    .select('id')
+    .eq('ruta_id', proyecto.ruta_id)
+
+  if (objetivos && objetivos.length > 0) {
+    await supabase
+      .from('rover_objetivos')
+      .delete()
+      .eq('rover_id', roverId)
+      .in('objetivo_id', objetivos.map(o => o.id))
+  }
+
   res.json({ mensaje: 'Proyecto eliminado' })
 })
 

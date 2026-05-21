@@ -1755,3 +1755,432 @@ body {
   flex-shrink: 0;
 }
 
+/* ── Avance Header ── */
+.avance-header {
+  background: linear-gradient(135deg, #091e3a 0%, #0c2340 50%, #1d6868 100%);
+  border-radius: 16px;
+  padding: 1.75rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  min-height: 110px;
+}
+
+.avance-header__left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.avance-header__camino {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #6ee7df;
+  text-transform: uppercase;
+}
+
+.avance-header__titulo {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.1;
+}
+
+.avance-header__sub {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 0.1rem;
+}
+
+.avance-header__stats {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.avance-header__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.avance-header__stat-num {
+  font-size: 2.4rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.avance-header__stat-num--completado { color: #4ade80; }
+.avance-header__stat-num--progreso   { color: #fbbf24; }
+.avance-header__stat-num--sin        { color: rgba(255, 255, 255, 0.3); }
+
+.avance-header__stat-label {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+@media (max-width: 768px) {
+  .avance-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.25rem 1.5rem;
+    gap: 1.25rem;
+  }
+
+  .avance-header__titulo {
+    font-size: 1.6rem;
+  }
+
+  .avance-header__stats {
+    gap: 1.5rem;
+  }
+
+  .avance-header__stat-num {
+    font-size: 1.8rem;
+  }
+}
+
+/* ── Avance Cards de Ruta ── */
+.avance-ruta-card {
+  background: #ffffff;
+  border: 1.5px solid #e8e2d9;
+  border-radius: 16px;
+  padding: 1.5rem 1.75rem 1.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.avance-ruta-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.avance-ruta-card__left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.avance-ruta-card__icon {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  flex-shrink: 0;
+  border-radius: 12px;
+}
+
+.avance-ruta-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.avance-ruta-card__nombre-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.avance-ruta-card__nombre {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--negro);
+}
+
+.avance-ruta-card__categoria {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.avance-ruta-card__hitos {
+  font-size: 0.82rem;
+  color: var(--gris);
+  opacity: 0.75;
+  line-height: 1.5;
+}
+
+.avance-ruta-card__pct-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.1rem;
+  flex-shrink: 0;
+}
+
+.avance-ruta-card__completa-badge {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #ffffff;
+  padding: 0.2rem 0.65rem;
+  border-radius: 50px;
+  margin-bottom: 0.2rem;
+}
+
+.avance-ruta-card__pct-num {
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.avance-ruta-card__pct-simbolo {
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.avance-ruta-card__pct-label {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .avance-ruta-card {
+    padding: 1.25rem;
+  }
+
+  .avance-ruta-card__nombre {
+    font-size: 1rem;
+  }
+
+  .avance-ruta-card__pct-num {
+    font-size: 1.7rem;
+  }
+}
+
+/* ── Avance ── */
+.avance-resumen {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.avance-resumen__item {
+  flex: 1;
+  min-width: 120px;
+  background: #fff;
+  border-radius: 14px;
+  border: 2px solid #e8e2d9;
+  padding: 1.1rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.avance-resumen__item--completado { border-color: var(--verde); }
+.avance-resumen__item--progreso   { border-color: var(--naranja); }
+.avance-resumen__item--total      { border-color: var(--azul); }
+
+.avance-resumen__num {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--negro);
+  line-height: 1;
+}
+
+.avance-resumen__item--completado .avance-resumen__num { color: var(--verde); }
+.avance-resumen__item--progreso   .avance-resumen__num { color: var(--naranja); }
+.avance-resumen__item--total      .avance-resumen__num { color: var(--azul); }
+
+.avance-resumen__label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--gris);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Sección por ruta */
+.avance-ruta {
+  background: #fff;
+  border-radius: 14px;
+  border: 2px solid #e8e2d9;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.avance-ruta__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-left: 1rem;
+  border-left: 4px solid var(--azul);
+  flex-wrap: wrap;
+}
+
+.avance-ruta__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.avance-ruta__nombre {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--negro);
+}
+
+.avance-ruta__stats {
+  font-size: 0.82rem;
+  color: var(--gris);
+  opacity: 0.75;
+}
+
+.avance-ruta__barra-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 160px;
+}
+
+.avance-ruta__barra {
+  flex: 1;
+  height: 8px;
+  background: #f0ede8;
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.avance-ruta__barra-fill {
+  height: 100%;
+  border-radius: 50px;
+  transition: width 0.4s ease;
+}
+
+.avance-ruta__pct {
+  font-size: 0.82rem;
+  font-weight: 700;
+  min-width: 36px;
+  text-align: right;
+}
+
+/* Grid bingo */
+.avance-bingo {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 0.75rem;
+}
+
+.avance-celda {
+  background: #f5f2ed;
+  border: 2px solid #e8e2d9;
+  border-radius: 12px;
+  padding: 0.85rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  position: relative;
+  min-height: 120px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.avance-celda:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.avance-celda--completado {
+  color: #fff;
+}
+
+.avance-celda--en_progreso {
+  background: #fff;
+}
+
+.avance-celda__num {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--gris);
+  opacity: 0.35;
+  line-height: 1;
+}
+
+.avance-celda--completado .avance-celda__num {
+  opacity: 0.6;
+  color: #fff;
+}
+
+.avance-celda__area {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: rgba(0,0,0,0.07);
+  color: var(--gris);
+  padding: 0.15rem 0.5rem;
+  border-radius: 50px;
+  align-self: flex-start;
+}
+
+.avance-celda__desc {
+  font-size: 0.78rem;
+  color: var(--gris);
+  line-height: 1.35;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.avance-celda--completado .avance-celda__desc {
+  color: rgba(255,255,255,0.85);
+}
+
+.avance-celda__check {
+  position: absolute;
+  bottom: 0.65rem;
+  right: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #fff;
+  opacity: 0.9;
+}
+
+.avance-celda__dot {
+  position: absolute;
+  bottom: 0.7rem;
+  right: 0.75rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+  .avance-bingo {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+
+  .avance-ruta__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .avance-ruta__barra-wrap {
+    width: 100%;
+  }
+}
+
