@@ -350,16 +350,19 @@ router.get('/:id/actividades', verifyToken, async (req, res) => {
   res.json(data)
 })
 
-// POST /api/proyectos/:id/actividades — crea una actividad
+// POST /api/proyectos/:id/actividades — crea una actividad (rover: solo el suyo; scouter: cualquiera de su clan)
 router.post('/:id/actividades', verifyToken, async (req, res) => {
-  const roverId = req.user.id
+  const userId = req.user.id
   const { id } = req.params
   const { titulo, descripcion, fecha, horario } = req.body
 
   if (!titulo?.trim()) return res.status(400).json({ error: 'El título es requerido' })
 
-  const { data: proyecto, error: proyErr } = await supabase
-    .from('proyectos').select('rover_id').eq('id', id).eq('rover_id', roverId).single()
+  const { data: perfil } = await supabase.from('rovers').select('tipo, clan_id').eq('id', userId).single()
+
+  let proyectoQuery = supabase.from('proyectos').select('rover_id').eq('id', id)
+  if (perfil?.tipo === 'rover') proyectoQuery = proyectoQuery.eq('rover_id', userId)
+  const { data: proyecto, error: proyErr } = await proyectoQuery.single()
   if (proyErr || !proyecto) return res.status(404).json({ error: 'Proyecto no encontrado' })
 
   const { data, error } = await supabase
@@ -372,13 +375,16 @@ router.post('/:id/actividades', verifyToken, async (req, res) => {
   res.status(201).json(data)
 })
 
-// DELETE /api/proyectos/:id/actividades/:aid — elimina una actividad
+// DELETE /api/proyectos/:id/actividades/:aid — elimina una actividad (rover: solo el suyo; scouter: cualquiera de su clan)
 router.delete('/:id/actividades/:aid', verifyToken, async (req, res) => {
-  const roverId = req.user.id
+  const userId = req.user.id
   const { id, aid } = req.params
 
-  const { data: proyecto, error: proyErr } = await supabase
-    .from('proyectos').select('rover_id').eq('id', id).eq('rover_id', roverId).single()
+  const { data: perfil } = await supabase.from('rovers').select('tipo, clan_id').eq('id', userId).single()
+
+  let proyectoQuery = supabase.from('proyectos').select('rover_id').eq('id', id)
+  if (perfil?.tipo === 'rover') proyectoQuery = proyectoQuery.eq('rover_id', userId)
+  const { data: proyecto, error: proyErr } = await proyectoQuery.single()
   if (proyErr || !proyecto) return res.status(404).json({ error: 'Proyecto no encontrado' })
 
   const { error } = await supabase
