@@ -15,6 +15,8 @@ dotenv.config()
 const app = express()
 
 const allowedOrigins = [
+  'https://skauto.app',
+  'https://www.skauto.app',
   'https://skauto-jet.vercel.app',
   'http://localhost:3000',
   'http://localhost:5173',
