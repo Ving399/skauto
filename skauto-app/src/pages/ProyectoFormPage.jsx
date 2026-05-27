@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { apiFetch } from '../utils/apiFetch'
 import ListaEditable from '../components/ListaEditable'
+import ActividadesLista from '../components/ActividadesLista'
 import ObjetivosAcordeon from '../components/ObjetivosAcordeon'
 import ObjetivosExtra from '../components/ObjetivosExtra'
 import CompetenciasVinculadas from '../components/CompetenciasVinculadas'
@@ -296,10 +297,8 @@ function ProyectoFormPage() {
             : <Valor texto={form.descripcion} />}
         </Campo>
 
-        <Campo label="Acciones">
-          {editando
-            ? <ListaEditable items={form.acciones} onChange={(v) => setField('acciones', v)} />
-            : <ListaVista items={form.acciones} />}
+        <Campo label="Actividades">
+          <ActividadesLista proyectoId={id} editando={editando} />
         </Campo>
 
         <Campo label="Lugar">

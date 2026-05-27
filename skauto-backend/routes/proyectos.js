@@ -327,6 +327,70 @@ router.delete('/:id/competencias/:cid', verifyToken, async (req, res) => {
   res.json({ mensaje: 'Competencia desvinculada' })
 })
 
+// GET /api/proyectos/:id/actividades — lista actividades del proyecto
+router.get('/:id/actividades', verifyToken, async (req, res) => {
+  const userId = req.user.id
+  const { id } = req.params
+
+  const { data: perfil } = await supabase.from('rovers').select('tipo, clan_id').eq('id', userId).single()
+
+  let proyectoQuery = supabase.from('proyectos').select('rover_id').eq('id', id)
+  if (perfil?.tipo === 'rover') proyectoQuery = proyectoQuery.eq('rover_id', userId)
+  const { data: proyecto, error: proyErr } = await proyectoQuery.single()
+  if (proyErr || !proyecto) return res.status(404).json({ error: 'Proyecto no encontrado' })
+
+  const { data, error } = await supabase
+    .from('actividades')
+    .select('id, titulo, descripcion, fecha, horario, created_at')
+    .eq('proyecto_id', id)
+    .order('fecha', { ascending: true, nullsFirst: false })
+    .order('created_at', { ascending: true })
+
+  if (error) return res.status(500).json({ error: error.message })
+  res.json(data)
+})
+
+// POST /api/proyectos/:id/actividades — crea una actividad
+router.post('/:id/actividades', verifyToken, async (req, res) => {
+  const roverId = req.user.id
+  const { id } = req.params
+  const { titulo, descripcion, fecha, horario } = req.body
+
+  if (!titulo?.trim()) return res.status(400).json({ error: 'El título es requerido' })
+
+  const { data: proyecto, error: proyErr } = await supabase
+    .from('proyectos').select('rover_id').eq('id', id).eq('rover_id', roverId).single()
+  if (proyErr || !proyecto) return res.status(404).json({ error: 'Proyecto no encontrado' })
+
+  const { data, error } = await supabase
+    .from('actividades')
+    .insert({ proyecto_id: id, titulo: titulo.trim(), descripcion: descripcion || null, fecha: fecha || null, horario: horario || null })
+    .select('id, titulo, descripcion, fecha, horario, created_at')
+    .single()
+
+  if (error) return res.status(500).json({ error: error.message })
+  res.status(201).json(data)
+})
+
+// DELETE /api/proyectos/:id/actividades/:aid — elimina una actividad
+router.delete('/:id/actividades/:aid', verifyToken, async (req, res) => {
+  const roverId = req.user.id
+  const { id, aid } = req.params
+
+  const { data: proyecto, error: proyErr } = await supabase
+    .from('proyectos').select('rover_id').eq('id', id).eq('rover_id', roverId).single()
+  if (proyErr || !proyecto) return res.status(404).json({ error: 'Proyecto no encontrado' })
+
+  const { error } = await supabase
+    .from('actividades')
+    .delete()
+    .eq('id', aid)
+    .eq('proyecto_id', id)
+
+  if (error) return res.status(500).json({ error: error.message })
+  res.json({ mensaje: 'Actividad eliminada' })
+})
+
 // DELETE /api/proyectos/:id — borra un proyecto del rover
 router.delete('/:id', verifyToken, async (req, res) => {
   const roverId = req.user.id

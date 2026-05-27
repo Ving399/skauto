@@ -13,6 +13,8 @@ import PerfilPage from './pages/PerfilPage'
 import CompetenciasPage from './pages/CompetenciasPage'
 import CompetenciaFormPage from './pages/CompetenciaFormPage'
 import AventurasPage from './pages/AventurasPage'
+import MiClanPage from './pages/MiClanPage'
+import CalendarioPage from './pages/CalendarioPage'
 
 function App() {
   const [session, setSession] = useState(null)
@@ -54,6 +56,8 @@ function App() {
           <Route path="/aventuras"                   element={<AventurasPage />} />
           <Route path="/tools"                       element={<ToolsPage />} />
           <Route path="/perfil"                      element={<PerfilPage />} />
+          <Route path="/clan"                        element={<MiClanPage />} />
+          <Route path="/calendario"                  element={<CalendarioPage />} />
         </Route>
 
         {/* Cualquier ruta desconocida redirige según sesión */}

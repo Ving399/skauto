@@ -8,6 +8,8 @@ import iconAvance      from '../assets/icons/avance.svg'
 import iconTool        from '../assets/icons/tool.svg'
 import iconCompetencias from '../assets/icons/competencias.svg'
 import iconAventuras   from '../assets/icons/fire.svg'
+import iconClan        from '../assets/icons/user.svg'
+import iconCalendario  from '../assets/icons/calendar.svg'
 
 function Sidebar({ session, isOpen, onClose }) {
   const user = session.user
@@ -46,6 +48,8 @@ function Sidebar({ session, isOpen, onClose }) {
         <SideBarItem to="/aventuras"    icon={<img src={iconAventuras}    alt="" />} label="Aventuras"    onClick={onClose} />
         <SideBarItem to="/avance"       icon={<img src={iconAvance}       alt="" />} label="Avance"       onClick={onClose} />
         <SideBarItem to="/tools"        icon={<img src={iconTool}         alt="" />} label="Herramientas" onClick={onClose} />
+        <SideBarItem to="/clan"         icon={<img src={iconClan}         alt="" />} label="Mi Clan"        onClick={onClose} />
+        <SideBarItem to="/calendario"  icon={<img src={iconCalendario}   alt="" />} label="Calendario"     onClick={onClose} />
       </nav>
 
       {/* Logout */}
