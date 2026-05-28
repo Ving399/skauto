@@ -41,7 +41,9 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Rutas públicas */}
-        <Route path="/" element={<Landing />} />
+        <Route path="/" element={
+          session ? <Navigate to="/proyectos" replace /> : <Landing />
+        } />
         <Route path="/login" element={
           session ? <Navigate to="/proyectos" replace /> : <LoginPage />
         } />
