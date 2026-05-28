@@ -84,7 +84,7 @@ export default function ActividadesLista({ proyectoId, editando }) {
 
       {editando && (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <button className="btn-crear" onClick={() => setModalAbierto(true)}>
+          <button className="btn-crear btn-crear--inline" onClick={() => setModalAbierto(true)}>
             + Nueva actividad
           </button>
         </div>
