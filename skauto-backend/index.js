@@ -24,7 +24,6 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: (origin, callback) => {
-    console.log('[CORS] origin:', JSON.stringify(origin))
     callback(null, allowedOrigins.includes(origin) || !origin)
   },
   credentials: true,
