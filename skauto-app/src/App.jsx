@@ -15,6 +15,7 @@ import CompetenciaFormPage from './pages/CompetenciaFormPage'
 import AventurasPage from './pages/AventurasPage'
 import MiClanPage from './pages/MiClanPage'
 import CalendarioPage from './pages/CalendarioPage'
+import Landing from './pages/Landing'
 
 function App() {
   const [session, setSession] = useState(null)
@@ -39,7 +40,8 @@ function App() {
     //App.jsx — es quien lee la URL y decide qué página renderizar. Tiene el mapa completo de rutas.
     <BrowserRouter>
       <Routes>
-        {/* Ruta pública */}
+        {/* Rutas públicas */}
+        <Route path="/" element={<Landing />} />
         <Route path="/login" element={
           session ? <Navigate to="/proyectos" replace /> : <LoginPage />
         } />
@@ -62,7 +64,7 @@ function App() {
 
         {/* Cualquier ruta desconocida redirige según sesión */}
         <Route path="*" element={
-          <Navigate to={session ? '/proyectos' : '/login'} replace />
+          <Navigate to={session ? '/proyectos' : '/'} replace />
         } />
       </Routes>
     </BrowserRouter>
