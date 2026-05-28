@@ -287,8 +287,7 @@ export default function Landing() {
         <h2 className="landing-soporte__title">
           ¿Necesitás una mano?<br />Te escribimos de vuelta.
         </h2>
-        {/* TODO: reemplazar href con el link del formulario de Google Forms */}
-        <a href="#" className="landing-soporte__btn" target="_blank" rel="noopener noreferrer">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdPgfmunCswmbTIXrUH452YjuzrgFXgtJsuxvK3d2ntGbKHoQ/viewform?usp=header" className="landing-soporte__btn" target="_blank" rel="noopener noreferrer">
           Escribinos →
         </a>
       </section>
